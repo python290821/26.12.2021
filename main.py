@@ -6,6 +6,7 @@ from sqlalchemy import text
 from Car import Car
 from Driver import Driver
 from Many2Many import *
+from tar_solution import *
 from db_config import local_session, create_all_entities
 
 # create tables
@@ -23,7 +24,14 @@ local_session.execute('drop TABLE if exists products cascade')
 local_session.commit();
 local_session.execute('drop TABLE if exists mix_orders_products cascade')
 local_session.commit();
-
+local_session.execute('drop TABLE if exists lessons cascade')
+local_session.commit();
+local_session.execute('drop TABLE if exists students cascade')
+local_session.commit();
+local_session.execute('drop TABLE if exists teachers cascade')
+local_session.commit();
+local_session.execute('drop TABLE if exists subjects cascade')
+local_session.commit();
 create_all_entities()
 
 car1 = Car(model = 'honda', brand = 'civic', year = 2020)
@@ -78,3 +86,25 @@ p = repo.get_by_condition(Product,  lambda query: query.filter(Product.id == 2).
 print('result ===', p)
 print('orders for product id 2=========\n', p.mix_orders_products)
 
+repo.add(Student(name='danny'))
+repo.add(Student(name='moshe'))
+
+repo.add(Teacher(name='suzi'))
+repo.add(Teacher(name='tzipi'))
+
+repo.add(Subject(name='python'))
+repo.add(Subject(name='english'))
+repo.add(Subject(name='math'))
+
+repo.add(Lessons(subject_id=2, teacher_id=2, student_id=1))
+repo.add(Lessons(subject_id=3, teacher_id=1, student_id=1))
+repo.add(Lessons(subject_id=1, teacher_id=2, student_id=2))
+
+danny = repo.get_by_condition(Student,  lambda query: query.filter(Student.id == 1).first())
+print(danny.lessons[0].teacher.name)
+
+tzipi = repo.get_by_condition(Teacher,  lambda query: query.filter(Teacher.id == 2).first())
+print(tzipi.lessons)
+
+lessons_with_tzipi = repo.get_by_condition(Lessons,  lambda query: query.filter(Lessons.teacher_id == 2).all())
+print('lessons_with_tzipi =========== ', lessons_with_tzipi)
