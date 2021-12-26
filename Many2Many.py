@@ -7,6 +7,13 @@ association_table = Table('orders_products', Base.metadata,
                           Column('product_id', ForeignKey('products.id'), primary_key = True)
                           )
 
+class MixOrdersProducts(Base):
+    __tablename__ = 'mix_orders_products'
+    id = Column(Integer, primary_key=True)
+    order_id = Column(Integer, ForeignKey('orders.id'))
+    product_id = Column(Integer, ForeignKey('products.id'))
+    quantity = Column(Integer)
+
 class Order(Base):
     __tablename__ = 'orders'
     id = Column(BigInteger, primary_key=True)
