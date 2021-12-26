@@ -6,6 +6,7 @@ from sqlalchemy import text
 from Car import Car
 from Driver import Driver
 from Many2Many import *
+from GarageFacade import *
 from tar_solution import *
 from db_config import local_session, create_all_entities
 
@@ -34,8 +35,13 @@ local_session.execute('drop TABLE if exists subjects cascade')
 local_session.commit();
 create_all_entities()
 
-car1 = Car(model = 'honda', brand = 'civic', year = 2020)
-repo.add(car1)
+#car1 = Car(model = 'honda', brand = 'civic', year = 2020)
+#repo.add(car1)
+
+gfacade = GarageFacade()
+gfacade.add_car(Car(model = 'honda', brand = 'civic', year = 2020))
+
+
 #driver1 = Driver(name='moshe', car_id=2) # error
 driver1 = Driver(name='moshe', address='tel aviv', car_id=1)
 repo.add(driver1)
