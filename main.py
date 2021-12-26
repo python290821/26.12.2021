@@ -61,7 +61,20 @@ m1 = MixOrdersProducts(order_id = 1, product_id = 1, quantity = 3)
 repo.add(m1)
 m2 = MixOrdersProducts(order_id = 1, product_id = 2, quantity = 3)
 repo.add(m2)
-m3 = MixOrdersProducts(order_id = 2, product_id = 3, quantity = 5)
+m3 = MixOrdersProducts(order_id = 1, product_id = 2, quantity = 2)
 repo.add(m3)
+m4 = MixOrdersProducts(order_id = 2, product_id = 3, quantity = 5)
+repo.add(m4)
 
+o_m = repo.get_by_condition(MixOrdersProducts,  lambda query: query.filter(MixOrdersProducts.order_id == 1).all())
+print('result ===', o_m)
+print('products =========', o_m[0].product)
+
+o = repo.get_by_condition(Order,  lambda query: query.filter(Order.id == 1).all())
+print('result ===', o)
+print('products from order id 1=========\n', o[0].mix_orders_products)
+
+p = repo.get_by_condition(Product,  lambda query: query.filter(Product.id == 2).all())
+print('result ===', p)
+print('orders for product id 2=========\n', p[0].mix_orders_products)
 
